@@ -171,6 +171,7 @@ package flashcam.ui
 				ExternalInterface.call("FC_onShow");
 			} else {
 				log("You don't have a camera!");
+				showError(21, "You don't have a camera!");
 			}
 		}
 
@@ -209,6 +210,7 @@ package flashcam.ui
 				log("Microphone plugged in!");
 			} else {
 				log("You don't have a microphone!");
+				showError(22, "You don't have a microphone!");
 			}
 		}
 
