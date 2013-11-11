@@ -20,13 +20,15 @@ package flashcam.ui
 	import flash.net.URLRequest;
 	import flash.system.Capabilities;
 	import flash.utils.Timer;
+	import flash.system.Security;
+	import flash.system.SecurityPanel;
 
 	import mx.core.Application;
 	import mx.core.FlexGlobals;
 	import mx.events.FlexEvent;
 
 	public class Flashcam extends Application
-	{	
+	{
 		// software version
 		private var version:String = "0.1.5";
 
@@ -50,6 +52,8 @@ package flashcam.ui
 
 		private var recordingTimer:Timer;
 		private var maximumTime:int = 600; // default: 600 seconds == 10 minutes
+
+		private var mostraDialogoSeguranca:Boolean = false;
 
 		public function Flashcam()
 		{
@@ -81,12 +85,15 @@ package flashcam.ui
 			this.display.width = this.width;
 			this.display.height = this.height;
 			this.addChild(display);
+
+			if (this.mostraDialogoSeguranca) Security.showSettings(SecurityPanel.PRIVACY);
+
 		}
 
 		private function logFlashPlayerType():void
 		{
 			var flashPlayerType:String;
-			
+
 			if (Capabilities.isDebugger) flashPlayerType;
 			else flashPlayerType;
 
@@ -120,6 +127,10 @@ package flashcam.ui
 				// maximum time = 1h
 				if (this.maximumTime > 60 * 60) this.maximumTime = 60 * 60;
 			}
+
+			if (params.mostraDialogoSeguranca.toString() == "true")
+				this.mostraDialogoSeguranca =	true;
+
 		}
 
 		private function createInterfaceCallbacks():void
@@ -180,7 +191,7 @@ package flashcam.ui
 			log("Init H264 encoder");
 
 			var h264:H264VideoStreamSettings = new H264VideoStreamSettings();
-			
+
 			h264.setProfileLevel(H264Profile.BASELINE, H264Level.LEVEL_3);
 			h264.setKeyFrameInterval(15);
 			h264.setQuality(0, 90);
@@ -227,7 +238,7 @@ package flashcam.ui
 				ExternalInterface.call("FC_onWebcamReady");
 			}
 		}
-		
+
 		private function netStatusHandler(event:NetStatusEvent):void
 		{
 			trace(event.info.code);

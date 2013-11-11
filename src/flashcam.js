@@ -40,9 +40,9 @@
 	};
 
 	$.flashcam = {};
-	
+
 	// outgoing functions (calling the flash movie)
-	
+
   function FC_display() {
     return $('#' + data.id).get(0);
   }
@@ -68,6 +68,7 @@
 		width:320,
 		height:240,
 		path:'',
+		mostraDialogoSeguranca: false,
 		noFlashFound:'<p>You need <a href="http://www.adobe.com/go/getflashplayer">Adobe Flash Player 11.4</a> to use this software.<br/>Please click on the link to download the installer.</p>'
 	};
 })(jQuery);
