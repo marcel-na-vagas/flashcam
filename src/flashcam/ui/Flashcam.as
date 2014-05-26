@@ -165,11 +165,12 @@ package flashcam.ui
 			{
 				if (this.useH264) this.h264Settings = this.configureH264();
 
-				this.cam.setKeyFrameInterval(15);
+				this.cam.setKeyFrameInterval(24);
 				this.cam.setQuality(0, 90);
 				this.cam.setLoopback(false);
 				this.cam.addEventListener(StatusEvent.STATUS, this.statusHandler);
 				this.video.attachCamera(this.cam);
+				this.cam.setMode(this.width, this.height, this.cam.keyFrameInterval);
 
 				this.display.video = this.video;
 
@@ -178,6 +179,8 @@ package flashcam.ui
 				log("Camera: FPS: " + this.cam.fps.toString());
 				log("Camera: Keyframe Interval: " + this.cam.keyFrameInterval.toString());
 				log("Camera: Quality: " + this.cam.quality.toString());
+				log("Camera: Width: " + this.cam.width.toString());
+				log("Camera: Height: " + this.cam.height.toString());
 
 				ExternalInterface.call("FC_onShow");
 			} else {
@@ -193,7 +196,7 @@ package flashcam.ui
 			var h264:H264VideoStreamSettings = new H264VideoStreamSettings();
 
 			h264.setProfileLevel(H264Profile.BASELINE, H264Level.LEVEL_3);
-			h264.setKeyFrameInterval(15);
+			h264.setKeyFrameInterval(24);
 			h264.setQuality(0, 90);
 			h264.setMode(this.video.videoWidth, this.video.videoHeight, -1);
 
@@ -204,7 +207,6 @@ package flashcam.ui
 			log("h264Settings: FPS: " + h264.fps.toString());
 			log("h264Settings: Keyframe interval: " + h264.keyFrameInterval.toString());
 			log("h264Settings: Quality: " + h264.quality.toString());
-
 			return h264;
 		}
 
